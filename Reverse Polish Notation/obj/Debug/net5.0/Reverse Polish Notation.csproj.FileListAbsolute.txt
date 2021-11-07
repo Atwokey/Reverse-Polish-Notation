@@ -1,0 +1,16 @@
+D:\Console Projects\Reverse Polish Notation\Reverse Polish Notation\bin\Debug\net5.0\Reverse Polish Notation.exe
+D:\Console Projects\Reverse Polish Notation\Reverse Polish Notation\bin\Debug\net5.0\Reverse Polish Notation.deps.json
+D:\Console Projects\Reverse Polish Notation\Reverse Polish Notation\bin\Debug\net5.0\Reverse Polish Notation.runtimeconfig.json
+D:\Console Projects\Reverse Polish Notation\Reverse Polish Notation\bin\Debug\net5.0\Reverse Polish Notation.runtimeconfig.dev.json
+D:\Console Projects\Reverse Polish Notation\Reverse Polish Notation\bin\Debug\net5.0\Reverse Polish Notation.dll
+D:\Console Projects\Reverse Polish Notation\Reverse Polish Notation\bin\Debug\net5.0\ref\Reverse Polish Notation.dll
+D:\Console Projects\Reverse Polish Notation\Reverse Polish Notation\bin\Debug\net5.0\Reverse Polish Notation.pdb
+D:\Console Projects\Reverse Polish Notation\Reverse Polish Notation\obj\Debug\net5.0\Reverse Polish Notation.csproj.AssemblyReference.cache
+D:\Console Projects\Reverse Polish Notation\Reverse Polish Notation\obj\Debug\net5.0\Reverse Polish Notation.GeneratedMSBuildEditorConfig.editorconfig
+D:\Console Projects\Reverse Polish Notation\Reverse Polish Notation\obj\Debug\net5.0\Reverse Polish Notation.AssemblyInfoInputs.cache
+D:\Console Projects\Reverse Polish Notation\Reverse Polish Notation\obj\Debug\net5.0\Reverse Polish Notation.AssemblyInfo.cs
+D:\Console Projects\Reverse Polish Notation\Reverse Polish Notation\obj\Debug\net5.0\Reverse Polish Notation.csproj.CoreCompileInputs.cache
+D:\Console Projects\Reverse Polish Notation\Reverse Polish Notation\obj\Debug\net5.0\Reverse Polish Notation.dll
+D:\Console Projects\Reverse Polish Notation\Reverse Polish Notation\obj\Debug\net5.0\ref\Reverse Polish Notation.dll
+D:\Console Projects\Reverse Polish Notation\Reverse Polish Notation\obj\Debug\net5.0\Reverse Polish Notation.pdb
+D:\Console Projects\Reverse Polish Notation\Reverse Polish Notation\obj\Debug\net5.0\Reverse Polish Notation.genruntimeconfig.cache
