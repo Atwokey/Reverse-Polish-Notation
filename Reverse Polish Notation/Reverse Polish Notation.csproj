@@ -6,4 +6,10 @@
     <RootNamespace>Reverse_Polish_Notation</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Update="Program.cs">
+      <DependentUpon>ReversePolishNotation.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>

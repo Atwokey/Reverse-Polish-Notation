@@ -8,139 +8,156 @@ namespace Reverse_Polish_Notation
 {
     public class ReversePolishNotation
     {
-        private char[] _arrayExpression;
-        private List<string> _outputList;
-        private Stack<string> _stackOperations;
+        private string _expression;
+        private List<Character> _expressionList;
+        private List<Character> _outputList;
+        private Stack<Character> _stackOperations;
         private float _result;
+
+        public float Result => _result;
 
         public ReversePolishNotation(string expression)
         {
-            _arrayExpression = StringConversation(expression);
-            _outputList = new List<string>();
-            _stackOperations = new Stack<string>();
+            _expression = expression;
+            _expressionList = new List<Character>();
+            _outputList = new List<Character>();
+            _stackOperations = new Stack<Character>();
         }
 
-        private char[] StringConversation(string expression)
+        public void Start()
         {
-            return expression.Replace(" ", "").ToCharArray();
+            Сonvert();
+            //GetExpressionList();
+            Decompose();
+            //GetOutputList();
+            Compute();
         }
 
-        public void StartEvaluate()
+        private void Сonvert()
         {
-            Decomposition();
-            GetOutputList();
-            Сomputation();
-        }
+            char[] characterArray = _expression.Replace(" ", "").ToCharArray();
+            string number = String.Empty;
 
-        private void Decomposition()
-        {
-            string fullNum = "";
-
-            foreach(char character in _arrayExpression)
+            for (int i = 0; i < characterArray.Length; i++)
             {
-                string ch = char.ToString(character);
-
-                if(!ch.IsDigit() && ch != ".")
+                if (char.ToString(characterArray[i]).IsDigit() || characterArray[i] == '.')
                 {
-                    AddList(fullNum);
-                    fullNum = "";
-                    AddStack(ch);
+                    number += characterArray[i];
                     continue;
                 }
+                
+                if (!String.IsNullOrEmpty(number))
+                    _expressionList.Add(GetCharacter(number, true));
 
-                fullNum += ch;
-            }
+                _expressionList.Add(GetCharacter(char.ToString(characterArray[i]), false));
 
-            AddList(fullNum);
-            CleanStack();
-        }
-
-        private void AddList(string character)
-        {
-            if (!String.IsNullOrEmpty(character))
-            {
-                _outputList.Add(character);
-            }
-        }
-
-        private void AddStack(string mathSign)
-        {
-            if(_stackOperations.Count > 0)
-            {
-                if(mathSign == ")")
+                if (characterArray[i] == '-' && !char.ToString(characterArray[i - 1]).IsDigit()
+                                             && characterArray[i - 1] != '.' 
+                                             && characterArray [i - 1] != ')')
                 {
-                    CleanStack();
-                    return;
+                    Console.WriteLine("I work");
+                    _expressionList[_expressionList.Count - 1].IncreasePriority();
+                    _expressionList.Add(GetCharacter("0", true));
                 }
-
-                if ((GetPriority(_stackOperations.Peek()) >= GetPriority(mathSign)) && _stackOperations.Peek() != "(")
-                    _outputList.Add(_stackOperations.Pop());
+                
+                number = String.Empty;
             }
 
-            _stackOperations.Push(mathSign);
+            if (!String.IsNullOrEmpty(number))
+                _expressionList.Add(GetCharacter(number, true));
+        }
+
+        private Character GetCharacter(string letter, bool isDigit)
+        => (isDigit) ? new Character(float.Parse(letter)) : new Character(letter);
+
+        private void Decompose()
+        {
+            for (int i = 0; i < _expressionList.Count; i++)
+            {
+                if (string.IsNullOrEmpty(_expressionList[i].MathSign))
+                {
+                    _outputList.Add(_expressionList[i]);   
+                }
+                else
+                {
+                    if (_expressionList[i].MathSign == ")")
+                    {
+                        CleanStack();
+                        continue;
+                    }
+
+                    if (_stackOperations.Count > 0)
+                        if (_stackOperations.Peek().Priority >= _expressionList[i].Priority && _stackOperations.Peek().MathSign != "(")
+                            _outputList.Add(_stackOperations.Pop());
+
+                    _stackOperations.Push(_expressionList[i]);
+                }
+            }
+            
+            CleanStack();
         }
 
         private void CleanStack()
         {
-            while(true)
+            while (_stackOperations.Count > 0)
             {
-                if (_stackOperations.Count == 0)
-                    break;
-
-                if(_stackOperations.Peek() == "(")
+                if (_stackOperations.Peek().MathSign == "(")
                 {
                     _stackOperations.Pop();
-                    break;
+                    continue;
                 }
 
                 _outputList.Add(_stackOperations.Pop());
             }
         }
 
-        private int GetPriority(string mathSign)
+        private void Compute()
         {
-            if (mathSign == "+" || mathSign == "-")
-                return -1;
+             Stack<Character> calculateStack = new Stack<Character>();
+             
+             foreach (Character value in _outputList)
+             {
+                 if (!String.IsNullOrEmpty(value.MathSign))
+                 {
+                     float number2 = calculateStack.Pop().Number;
+                     float number1 = (calculateStack.Count > 0) ? calculateStack.Pop().Number : 0;
 
-            if (mathSign == "*" || mathSign == "/")
-                return 0;
+                     Calculator calculator = new Calculator(number1, number2, value.MathSign);
+                     calculator.Calculate();
 
-            return 1;
-        }
+                     calculateStack.Push(new Character(calculator.GetResult()));
+                     Console.WriteLine(calculateStack.Peek().Number);
+                     continue;
+                 }
 
-        private void Сomputation()
-        {
-            Stack<string> calculateStack = new Stack<string>();
-            foreach (string character in _outputList)
-            {
-                if (!character.IsDigit())
-                {
-                    float value2 = float.Parse(calculateStack.Pop());
-                    float value1 = (calculateStack.Count > 0) ? float.Parse(calculateStack.Pop()) : 0;
+                 calculateStack.Push(value);
+                 
+             }
 
-                    Calculator calculator = new Calculator(value1, value2, character);
-                    calculator.Calculate();
-
-                    calculateStack.Push(calculator.GetResult().ToString());
-                    continue;
-                }
-
-                calculateStack.Push(character);
-            }
-
-            _result = float.Parse(calculateStack.Pop());
-        }
-
-        public float GetResult()
-        {
-            return _result;
-        }
-
+            _result = calculateStack.Pop().Number;
+         }
+      
         private void GetOutputList()
         {
-            foreach(string character in _outputList)
+            
+            foreach(Character character in _outputList)
             {
-                Console.WriteLine(character);
+                if (!String.IsNullOrEmpty(character.MathSign))
+                    Console.WriteLine(character.MathSign);
+                else
+                    Console.WriteLine(character.Number);
+            }
+        }
+        
+        private void GetExpressionList()
+        {
+            
+            foreach(Character character in _expressionList)
+            {
+                if (!String.IsNullOrEmpty(character.MathSign))
+                    Console.WriteLine(character.MathSign);
+                else
+                    Console.WriteLine(character.Number);
             }
         }
     }
